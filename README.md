@@ -1,6 +1,6 @@
 # Edgemonix
 ## Progetto Code Week 
-**Request:**Realizzazione di una piccola web app dove mostrare le serie TV più popolari (estratte dal database di MovieDB)
+**Request:** Realizzazione di una piccola web app dove mostrare le serie TV più popolari (estratte dal database di MovieDB)
 **Target:** Utenti appassionati di serie TV
 
 ## Layout
