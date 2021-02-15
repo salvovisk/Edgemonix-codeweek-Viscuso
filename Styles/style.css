@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/*  */
+
+body {
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  background: rgb(55, 55, 55);
+  background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,1) 42%);
+  overflow-x: hidden;
+}
+:root a:hover, a:active, a:visited, a:link {
+  text-decoration: none;
+}
+
+
+body::-webkit-scrollbar {
+  /* height: 4px; */
+  width: 2.5px;
+
+}
+
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(55, 55, 55, 0.3); 
+  box-shadow: inset 0 0 6px rgba(55, 55, 55, 0.3);
+  border-radius: 5px;
+  background-color: rgb(0, 0, 0);
+}
+
+body::-webkit-scrollbar-thumb {
+  border-radius: 5px;  
+  background-color: rgb(255, 0, 0);
+}
+
+.overlay-for-login {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 95%);
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-body {
+  background-color: #252525;
+  display: flex;
+  justify-content: center;
+  height: 450px;
+  width: 350px;
+  border-radius: 25px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 1px;
+  box-shadow: 0 0 25px 10px rgba(31, 184, 214, 8%);
+  
+}
+
+.overlay-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.overlay-form img {
+  margin: 20px;
+  height: 64px;
+  width: 64px;
+}
+
+.overlay-form p {
+  line-height: 25px;
+  text-align: center;
+  margin: 20px auto 25px auto;
+}
+
+.overlay-form a {
+  color:rgb(31, 184, 214);
+}
+
+.overlay-form input {
+  border: none;
+  border-bottom: 2px solid rgb(31, 184, 214);
+  background-color: #252525;
+  width: 100px;
+  text-align: center;
+  color: rgba(255,255,255);
+  padding-bottom: 5px;
+  transition: width 0.4s ease-in-out;
+  margin-bottom: 25px;
+}
+
+.overlay-form input:focus {
+  outline: none;
+  width: 290px;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #252525 inset;
+}
+
+input:-webkit-autofill:first-line {
+  color: #ffffff;
+}
+
+.overlay-form button {
+  padding: 2.5px 25px;
+  background-color: rgb(2,108,147);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.confirmBtn {
+  display: none;
+}
+
+.overlay-form button:active,
+.overlay-body button:focus {
+  outline: none;
+}
+
+.overlay-is-hidden {
+  display: none;
+  
+}
+
+.navbar {
+  position: fixed;
+  height: 45px;
+  display: inline-flex;
+  background-color: black;
+  width: 100%;
+}
+
+.navbar h4 {
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 6px;
+  font-size: x-large;
+  color: red;
+  justify-content: flex-start;
+  margin: auto 20px auto 15px;
+}
+
+.navbar ul {
+  display: inline-flex;
+  flex-direction: row;
+  margin-top: 15px;
+}
+
+.navbar li {
+  list-style: none;
+  margin-right: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.navbar a {
+
+  text-decoration: none;
+  color: rgb(126, 126, 126);
+}
+
+.navbar a:hover,
+.navbar a:visited,
+.navbar a:active {
+  text-decoration: none;
+}
+
+.profile {
+display: inline-flex;
+margin: 5px 5px 5px auto;
+align-items: center;
+}
+
+.profile h3 {
+  color: rgb(126, 126, 126);
+  margin-right: 15px;
+  font-style: italic;
+}
+.profile img {
+  border-radius: 30%;
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
