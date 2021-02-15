@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Salvatore Viscuso">
+  <meta name="description" content="Code-week-Edgemonix">
+  <link rel="stylesheet" href="Styles/normalize.css">
+  <link rel="stylesheet" href="Styles/style.css">
+  <link rel="shortcut icon"
+    href="https://static.tumblr.com/fc37836cbdcc0b6226aa282ddd880e90/yfashpy/ZePopa5hb/tumblr_static_4umo0gqzk6qsw4wgogswgcc8k.png"
+    type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <title>Edgemonix</title>
+</head>
+
+<body>
+  <div class="overlay-for-login">
+    <div class="overlay-body">
+      <form class="overlay-form">
+        <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" alt="">
+        <p>Effettua il login <br> inserendo la tua API Key di TMDB <br> <a href="https://www.themoviedb.org/settings/api">TMDB/My Apy Key</a> </p>
+        <input type="text" name="api_key" id="api_key" required >
+        <button type="submit" class="loginBtn">Login</button>
+        <button type="button" class="confirmBtn">Conferma il login</button>
+      </form>
+    </div>
+  </div>
+  <header>
+    <section class="navbar">
+      <h4>EDGEMONIX</h4>
+      <ul>
+        <li><a href="">Popolari</a></li>
+        <li><a href="">Novità</a></li>
+        <li><a href="">Più votate</a></li>
+      </ul>
+      <span class="profile">
+        
+        <img src="Src/unnamed.jpg" alt="">
+      </span>
+    </section>
+  </header>
+
+  <main>
+    <section class="carousel" id="tvPopular"></section>
+  </main>
+
+  <script src="Assets/index.js"></script>
+</body>
+
+</html>
