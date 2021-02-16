@@ -19,14 +19,18 @@
 </head>
 
 <body>
-  <div class="overlay-for-login">
+  <div class="overlay-for-login overlay-is-hidden">
     <div class="overlay-body">
       <form class="overlay-form">
-        <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" alt="">
-        <p>Effettua il login <br> inserendo la tua API Key di TMDB <br> <a href="https://www.themoviedb.org/settings/api">TMDB/My Apy Key</a> </p>
-        <input type="text" name="api_key" id="api_key" required >
+        <img
+          src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+          alt="">
+        <p>Effettua il login <br> inserendo la tua API Key di TMDB <br> <a
+            href="https://www.themoviedb.org/settings/api">TMDB/My Apy Key</a> </p>
+        <input type="text" name="api_key" id="api_key" required>
         <button type="submit" class="loginBtn">Login</button>
         <button type="button" class="confirmBtn">Conferma il login</button>
+        <button type="button" class="skiplogin">Salta</button>
       </form>
     </div>
   </div>
@@ -38,14 +42,41 @@
         <li><a href="">Novità</a></li>
         <li><a href="">Più votate</a></li>
       </ul>
-      <span class="profile">
-        
-        <img src="Src/unnamed.jpg" alt="">
-      </span>
+      <span class="profile"></span>
     </section>
   </header>
 
   <main>
+    <section class="slideshow">
+      <div class="contentSlides">
+        <img src="Src/simpson.jpg" class="mySlidesBackdrop">
+        <div class="contentText">
+          <h3 class="headerSlides">I Simpson</h3>
+          <p class="descriptionSlides">I Simpson (The Simpsons) è una popolare sitcom animata creata dal fumettista
+            statunitense Matt Groening
+            alla fine degli anni ottanta per la Fox Broadcasting Company. È una parodia satirica della società e dello
+            stile di vita statunitensi, personificati dalla famiglia protagonista, di cui fanno parte Homer, Marge e i
+            loro tre figli Bart, Lisa e Maggie. Ambientato in una cittadina statunitense chiamata Springfield, lo show
+            tratta in chiave umoristica molti
+            aspetti della condizione umana, così come la cultura, la società in generale e la stessa televisione.</p>
+        </div>
+      </div>
+      <div class="contentSlides">
+        <img src="Src/griffin.jpg" class="mySlidesBackdrop">
+        <div class="contentText">
+          <h3 class="headerSlides">I Griffin</h3>
+          <p class="descriptionSlides">La famiglia protagonista del cartone è la dissacrante rappresentazione della tipica American way of life. Le loro vicende sono fuori dalla realtà, con continui flashback in vari punti della storia che esplicano i comportamenti dei personaggi. Le trame degli episodi molto spesso non seguono un senso logico, ma sono sempre dotate di una forte vena umoristico-demenziale, l'inserimento, con il passare delle stagioni, di nuovi personaggi, ha ulteriormente scavato in questo punto, riuscendo nell'intento di far guadagnare alla serie una popolarità smisurata.</p>
+        </div>
+      </div>
+      <div class="contentSlides">
+        <img src="Src/futurama.jpg" class="mySlidesBackdrop">
+        <div class="contentText">
+          <h3 class="headerSlides">Futurama</h3>
+          <p class="descriptionSlides">he adventures of a late-20th-century New York City pizza delivery boy, Philip J. Fry, who, after being unwittingly cryogenically frozen for one thousand years, finds employment at Planet Express, an interplanetary delivery company in the retro-futuristic 31st century.
+          </p>
+        </div>
+      </div>
+    </section>
     <section class="carousel" id="tvPopular"></section>
   </main>
 

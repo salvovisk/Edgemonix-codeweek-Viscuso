@@ -1,9 +1,13 @@
 // f77033c1d0b6830581c0191d91ecddb7
 
 
-/* 
-Fix the span and user data
-*/
+// dev Function Skip login
+const skipBtn = document.querySelector('.skiplogin')
+function skip() {
+  OverlayLogin.classList.add('overlay-is-hidden')
+}
+skipBtn.addEventListener('click', skip)
+// 
 
 const LoginForm = document.querySelector('.overlay-form')
 const ConfirmBtn = document.querySelector('.confirmBtn')
@@ -22,19 +26,36 @@ const state = {
   },
   user: {
     username: null,
-    avatar: null
+    avatar: null,
+    name: null,
   }
 }
 
 
 /* Utilities */
+const getRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
 
+// FUNC to genate a number between min and max (max not included!)
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+// function for the url
 function getUrl(pathname) {
   const { api_key, base_url } = state.config;
-
   return `${base_url}${pathname}?api_key=${api_key}`;
 }
 
+/* --------------END OF UTILITIES------------------------------------- */
 
 // get the api key from the user in the login form
 async function getUserInputApi(e) {
@@ -75,7 +96,7 @@ async function confirmLogin() {
       console.log(data)
       state.config.sessionId = data.session_id
     })
-    .then(() => getUserData()) /* chiamata per ricevere dati dell'account quali username e avatar */
+    /* chiamata per ricevere dati dell'account quali username e avatar */
     .then(() => OverlayLogin.classList.add('overlay-is-hidden')) /* nascondo la modale */
     .then(() => handleHTMLMounted())
 }
@@ -97,20 +118,28 @@ function greetingUser() {
   }
 }
 
-
-function renderUserData(img, name) {
-  const avatarImg = document.createElement('img')
+// Function to generate a avatar with initials letters of the name and random background color,
+// it also render the profile span message
+function createAvatar(name, username) {
+  const nameAndSurname = name.split(" ")
+  console.log(nameAndSurname)
+  const avatarImg = document.createElement('div')
+  avatarImg.classList.add('avatar')
+  avatarImg.style.backgroundColor = getRandomColor()
+  const newThumbnail = document.createTextNode(((nameAndSurname[0])[0]) + ((nameAndSurname[1])[0]));
+  avatarImg.appendChild(newThumbnail)
+  ProfileSpan.appendChild(avatarImg)
+  console.log('avatar')
   const message = document.createElement('h3')
-  message.textContent = `${greeting}, ${name}`
-  avatarImg.src = img
-  ProfileSpan.append(avatarImg, message)
+  message.textContent = `${greeting}, ${username}`
+  ProfileSpan.append(message, avatarImg)
+  console.log('messaggio')
+
 }
 
 
 
-// https://api.themoviedb.org/3/account?api_key=f77033c1d0b6830581c0191d91ecddb7&session_id=null
-
-// // Call to receive user datas such as avatar and username
+// // Call to receive user datas such as avatar and username and renders the profile span
 async function getUserData() {
   fetch((getUrl("/account") + `&session_id=${state.config.sessionId}`))
     .then((r) => r.json())
@@ -119,18 +148,49 @@ async function getUserData() {
       state.user.avatar = data.gravatar;
       state.user.name = data.name
       console.log(data)
-      renderUserData(state.user.avatar, state.user.username)
+    })
+    .then(() => {
+      greetingUser(),
+        createAvatar(state.user.name, state.user.username)
     })
 
 }
 
+
+
 function handleHTMLMounted() {
-  getUserData(),
-    greetingUser()
+  getUserData()
 }
 
 
 
-LoginForm.addEventListener('submit', getUserInputApi)
+
+// LoginForm.addEventListener('submit', getUserInputApi)
+
+document.addEventListener('DOMContentLoaded', handleHTMLMounted)
+
+
+
+/* 
+
+// https://api.themoviedb.org/3//suopoADq0k8YZr4dQXcU6pToj6s.jpg
+${base_url}${backdrop_sizes[0]}${item.backdrop_path}`
+*/
+
+
+let slideIndex = 0;
+carousel();
+
+function carousel() {
+  let i;
+  let x = document.getElementsByClassName("contentSlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.opacity = 0;
+  }
+  slideIndex++;
+  if (slideIndex > x.length) { slideIndex = 1 }
+  x[slideIndex - 1].style.opacity = 1;
+  setTimeout(carousel, 5000); 
+}
 
 
