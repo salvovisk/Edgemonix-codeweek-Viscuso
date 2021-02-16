@@ -1,13 +1,7 @@
 // f77033c1d0b6830581c0191d91ecddb7
 
 
-// dev Function Skip login
-const skipBtn = document.querySelector('.skiplogin')
-function skip() {
-  OverlayLogin.classList.add('overlay-is-hidden')
-}
-skipBtn.addEventListener('click', skip)
-// 
+
 
 const LoginForm = document.querySelector('.overlay-form')
 const ConfirmBtn = document.querySelector('.confirmBtn')
@@ -28,11 +22,14 @@ const state = {
     username: null,
     avatar: null,
     name: null,
-  }
+  },
+  popular: null,
+  top_rated: null,
+  on_air: null,
 }
 
 
-/* Utilities */
+/* ----------------------------START OF UTILITIES---------------------------------- */
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -52,37 +49,52 @@ const getRandomInt = (min, max) => {
 // function for the url
 function getUrl(pathname) {
   const { api_key, base_url } = state.config;
-  return `${base_url}${pathname}?api_key=${api_key}`;
+  return `${base_url}${pathname}?api_key=${api_key}&language=it-IT`;
 }
 
-/* --------------END OF UTILITIES------------------------------------- */
+async function getData(url) {
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
 
-// get the api key from the user in the login form
+    if (!response.ok) {
+      throw result;
+    }
+    return result;
+  } catch (errorMessage) {
+    console.log(errorMessage);
+  }
+}
+
+
+/* ----------------------------END OF UTILITIES---------------------------------- */
+
+
 async function getUserInputApi(e) {
-  const { base_url } = state.config
   e.preventDefault();
   const UserInput = document.querySelector('input')
-  const userApi = UserInput.value
-  state.config.api_key = userApi;
-  // console.log(api_key);
-  fetch(`${base_url}/authentication/token/new?api_key=${state.config.api_key}`) /* Chiamata che invia l'api key inserita nell'input */
-    .then((r) => r.json())
-    .then((data) => {
-      console.log(data)
-      state.config.request_token = data.request_token /* Ricezione del request token e scrittura su state */
-      console.log(state.config.request_token)
+  state.config.api_key = UserInput.value
+  try {
+    const requestTokenUrl = getUrl("/authentication/token/new")
+    const response = await getData(requestTokenUrl);
+    if (!response.ok) {
+      state.config.request_token = response.request_token
+      // console.log(response)
       window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}`) /* Apertura finestra di autenticazione */
+      // console.log(state.config)
       ConfirmBtn.style.display = "block"
-    })
-  ConfirmBtn.addEventListener("click", confirmLogin)
+      // console.log(state.config)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  ConfirmBtn.addEventListener('click', confirmLogin)
 }
 
-
-/* conferma login per rimuovere la modale */
-/* da aggiungere l'effettivo controllo sull'autenticazione tramite local storage(?) */
 async function confirmLogin() {
   const { base_url, api_key, request_token } = state.config
-  fetch(`${base_url}/authentication/session/new?api_key=${api_key}`, {
+
+  const result = await fetch(`${base_url}/authentication/session/new?api_key=${api_key}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -91,14 +103,35 @@ async function confirmLogin() {
       request_token: request_token
     })
   })
-    .then((r) => r.json())
-    .then((data) => {
-      console.log(data)
-      state.config.sessionId = data.session_id
-    })
-    /* chiamata per ricevere dati dell'account quali username e avatar */
-    .then(() => OverlayLogin.classList.add('overlay-is-hidden')) /* nascondo la modale */
-    .then(() => handleHTMLMounted())
+  const response = await result.json()
+  state.config.sessionId = response.session_id
+  // console.log(result)
+  if (state.config.sessionId === response.session_id) {
+    OverlayLogin.classList.add('overlay-is-hidden')
+    handleHTMLMounted()
+  }
+
+}
+
+async function getPopular() {
+  const popularTvUrl = getUrl("/tv/popular");
+  const rawResponse = await getData(popularTvUrl);
+  state.popular = rawResponse.results;
+  return rawResponse
+}
+
+async function getTopRated() {
+  const topRatedTvUrl = getUrl("/tv/top_rated");
+  const rawResponse = await getData(topRatedTvUrl);
+  state.top_rated = rawResponse.results;
+  return rawResponse
+}
+
+async function getOnAir() {
+  const onAirTvUrl = getUrl("/tv/on_the_air");
+  const rawResponse = await getData(onAirTvUrl);
+  state.on_air = rawResponse.results;
+  return rawResponse
 }
 
 // Function to create a personalized message in the navbar according to the time
@@ -120,6 +153,7 @@ function greetingUser() {
 
 // Function to generate a avatar with initials letters of the name and random background color,
 // it also render the profile span message
+
 function createAvatar(name, username) {
   const nameAndSurname = name.split(" ")
   console.log(nameAndSurname)
@@ -134,52 +168,10 @@ function createAvatar(name, username) {
   message.textContent = `${greeting}, ${username}`
   ProfileSpan.append(message, avatarImg)
   console.log('messaggio')
-
 }
 
-
-
-// // Call to receive user datas such as avatar and username and renders the profile span
-async function getUserData() {
-  fetch((getUrl("/account") + `&session_id=${state.config.sessionId}`))
-    .then((r) => r.json())
-    .then((data) => {
-      state.user.username = data.username;
-      state.user.avatar = data.gravatar;
-      state.user.name = data.name
-      console.log(data)
-    })
-    .then(() => {
-      greetingUser(),
-        createAvatar(state.user.name, state.user.username)
-    })
-
-}
-
-
-
-function handleHTMLMounted() {
-  getUserData()
-}
-
-
-
-
-// LoginForm.addEventListener('submit', getUserInputApi)
-
-document.addEventListener('DOMContentLoaded', handleHTMLMounted)
-
-
-
-/* 
-
-// https://api.themoviedb.org/3//suopoADq0k8YZr4dQXcU6pToj6s.jpg
-${base_url}${backdrop_sizes[0]}${item.backdrop_path}`
-*/
-
-
+/* Carosello */
 let slideIndex = 0;
-carousel();
 
 function carousel() {
   let i;
@@ -190,7 +182,44 @@ function carousel() {
   slideIndex++;
   if (slideIndex > x.length) { slideIndex = 1 }
   x[slideIndex - 1].style.opacity = 1;
-  setTimeout(carousel, 5000); 
+  setTimeout(carousel, 10000);
 }
 
 
+// // Call to receive user datas such as avatar and username and renders the profile span
+
+async function getUserData() {
+  const requestProfileUrl = `${state.config.base_url}/account?api_key=${state.config.api_key}&session_id=${state.config.sessionId}`
+  const response = await getData(requestProfileUrl)
+  /*   console.log('test')
+    console.log(response) */
+  state.user.username = response.username;
+  state.user.name = response.name
+  return response
+}
+
+async function handleHTMLMounted() {
+  await getUserData()
+    .then(() => {
+      greetingUser()
+    })
+    .then(() => {
+      createAvatar(state.user.name, state.user.username)
+    })
+    .then(() => {
+      carousel()
+    })
+    .then(()=>{
+      handlingDatas()
+    })
+}
+
+async function handlingDatas(){
+  Promise.all([getPopular(), getTopRated(), getOnAir()]).then(
+    ()=>{
+      console.log(state)
+    }
+  )
+}
+
+LoginForm.addEventListener('submit', getUserInputApi)

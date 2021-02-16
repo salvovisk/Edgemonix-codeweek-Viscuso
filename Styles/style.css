@@ -10,8 +10,7 @@ body {
   position: relative;
   background: rgb(55, 55, 55);
   background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,1) 42%);
-  overflow-x: hidden;
-  
+  overflow-x: hidden;  
 }
 :root a:hover, a:active, a:visited, a:link {
   text-decoration: none;
@@ -38,7 +37,7 @@ body::-webkit-scrollbar-thumb {
 
 .overlay-for-login {
   position: absolute;
-  background-color: rgba(0, 0, 0, 95%);
+  background-color: rgba(0, 0, 0, 96%);
   height: 100vh;
   width: 100vw;
   z-index: 3;
@@ -150,6 +149,7 @@ input:-webkit-autofill:first-line {
   color: red;
   justify-content: flex-start;
   margin: auto 20px auto 15px;
+  font-style: bold;
 }
 
 .navbar ul {
@@ -212,7 +212,7 @@ align-items: center;
 
 .contentSlides {
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   z-index: 1;
   transition: opacity 1.5s ease-in-out;
@@ -222,7 +222,7 @@ align-items: center;
 .mySlidesBackdrop {
   position: absolute;
   object-fit: cover;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 }
 
@@ -248,4 +248,5 @@ align-items: center;
   margin-top: 25px;
   color: white;
   font-size: large;
+  font-style: bold;
 }
