@@ -3,10 +3,10 @@
 
 /* TO DO
 
-- new functionalities on slideshow, like ratings or more details buttons
+- new functionalities on slideshow, genres and ratings or more details buttons
 - refine the layout of the text cause it's a shit
 
-- buttons on carousels
+- buttons on carousels Done but to debug
 
 - traslation on login overlay (?)
 - modal for info on the selected item (?)
@@ -99,7 +99,7 @@ async function getUserInputApi(e) {
       // console.log(response)
       window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}/allow`) /* Apertura finestra di autenticazione */
       // console.log(state.config)
-      
+
       ConfirmBtn.style.display = "block"
       // console.log(state.config)
     }
@@ -126,7 +126,7 @@ async function confirmLogin() {
   state.config.sessionId = response.session_id
   // console.log(result)
   if (state.config.sessionId === response.session_id) {
-    
+
     OverlayLogin.classList.add('overlay-is-hidden')
     handleHTMLMounted()
   }
@@ -281,6 +281,63 @@ function renderCarousel(list, sectionNode) {
   });
 }
 
+
+
+// Function that handles the carousel buttons
+
+function handleScrollRight() {
+  if (event.target.id === "nextFirst") {
+    TV_POPULAR.parentNode.scrollTo({
+      left: TV_POPULAR.parentNode.scrollLeft + TV_POPULAR.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    })
+  } else if (event.target.id === "nextSecond") {
+    TV_TOP_RATED.parentNode.scrollTo({
+      left: TV_POPULAR.parentNode.scrollLeft + TV_TOP_RATED.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    })
+  } else {
+    TV_ON_AIR.parentNode.scrollTo({
+      left: TV_ON_AIR.parentNode.scrollLeft + TV_ON_AIR.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    })
+
+  }
+}
+
+function handleScrollLeft() {
+  if (event.target.id === "prevFirst") {
+    TV_POPULAR.parentNode.scrollTo({
+      left: TV_POPULAR.parentNode.scrollLeft - TV_POPULAR.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    },
+    )
+  } else if (event.target.id === "prevSecond") {
+    TV_TOP_RATED.parentNode.scrollTo({
+      left: TV_TOP_RATED.parentNode.scrollLeft - TV_TOP_RATED.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    })
+  } else {
+    TV_ON_AIR.scrollTo({
+      left: TV_ON_AIR.parentNode.scrollLeft - TV_ON_AIR.childNodes[1].offsetWidth,
+      behavior: 'smooth'
+    })
+
+  }
+}
+
+  document.querySelectorAll('.prev').forEach(item => {
+    item.addEventListener('click', event => {
+      handleScrollLeft()
+    })
+  })
+
+  document.querySelectorAll('.next').forEach(item => {
+    item.addEventListener('click', event => {
+      handleScrollRight()
+    })
+  })
+
 // // Call to receive user datas such as avatar and username and renders the profile span
 
 async function getUserData() {
@@ -315,12 +372,13 @@ async function handlingDatas() {
   ).then(() => {
     slideshow()
   }
-  ).then(()=>{
+  ).then(() => {
     renderCarousel(state.popular, TV_POPULAR);
     renderCarousel(state.top_rated, TV_TOP_RATED);
     renderCarousel(state.on_air, TV_ON_AIR)
     const carousel = document.querySelector('.sectCarousel')
     carousel.classList.remove('sectCarousel-is-hidden')
+
   })
 
 }

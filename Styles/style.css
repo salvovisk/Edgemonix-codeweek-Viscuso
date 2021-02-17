@@ -40,11 +40,6 @@ body::-webkit-scrollbar-thumb {
   background-color: rgb(255, 0, 0);
 }
 
-body::-webkit-scrollbar:hover {
-  width: 10px;
-  transition: width 0.5s ease-in-out;
-}
-
 
 .overlay-for-login {
   position: absolute;
@@ -145,11 +140,11 @@ input:-webkit-autofill:first-line {
 
 .navbar {
   position: fixed;
-  height: 7vh;
+  height: 50px;
   display: inline-flex;
   background-color: black;
   width: 100vw;
-  box-shadow: 0 2px 10px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 5px 5px rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
 
@@ -228,7 +223,6 @@ align-items: center;
 .slideshow {
   height: 100vh;
   overflow-x: none;
-  scroll-snap-type: center;
 }
 
 .contentSlides {
@@ -238,6 +232,7 @@ align-items: center;
   z-index: 1;
   transition: opacity 1.5s ease-in-out;
   top: 0;
+  margin-bottom: 0;
 }
 
 .contentSlides + .contentSlides {opacity: 1;}
@@ -246,21 +241,20 @@ align-items: center;
   position: absolute;
   object-fit: cover;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 
 .contentText {
-  position: absolute;
-  /* top: 0; */
+  position: absolute; 
   width: 100%;
   bottom: 0;
+  margin-bottom: 0;
   padding-bottom: 0;  
   color: white;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 70%);
   height: fit-content;
   padding: 25px;
-  /* z-index: ; */
-  box-shadow: 0 -10px 25px 25px rgba(0,0,0,0.7);
+  box-shadow: 0 -10px 25px 25px rgba(0, 0, 0, 70%);
 }
 
 
@@ -269,6 +263,7 @@ align-items: center;
   font-size: x-large;
   padding-left: 25px;
   padding-right: 25px;
+  font-weight: bolder;
 }
 
 
@@ -276,16 +271,25 @@ align-items: center;
   font-weight: 500;
   margin-top: 25px;
   color: white;
-  font-size: large;
+  font-size: 1.2rem;
+  min-height: 100px;
+  max-height: 120px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
 
-
 .sectCarousel {
-  height: 93vh;
+  position: relative;
+  height: 100%;
   width: 100%;
   scroll-snap-type: center;
   background: rgb(25,25,25);
   background: linear-gradient(180deg, rgba(25,25,25,1) 10%, rgba(0,0,0,1) 100%);
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 10px;
 }
 .sectCarousel-is-hidden{
   display: none;
@@ -302,8 +306,8 @@ align-items: center;
   width: 100%;
   height: 20vh;
   scroll-snap-type: x mandatory;
-  overflow-x: scroll;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow: hidden;
   overflow-y: hidden;
 }
 
@@ -356,10 +360,69 @@ h2 {
   padding: 10px;
   padding-left: 18px;
   background-color: rgba(0, 0, 0, 0.8);
-  box-shadow: 0 -8px 20px 3px black;
+  box-shadow: 0 -8px 10px 2px rgba(0, 0, 0, 0.8);
   color: white;
 }
 
 .card img {
   object-fit: cover;
+}
+
+.nav {
+  position: absolute;
+  display: flex;
+  margin-top: 75px;
+  z-index: 1;
+  width: 100%;
+  color: white;
+}
+
+.prev {
+  display: inline-flex;  
+  position: absolute;
+  left: 0;
+  top: -75px;
+  justify-content: center;
+  height: 20vh;
+  width: 50px;
+  padding-left: 5px;
+  padding-right: 5px;
+  align-items: center;
+  background: rgb(79,79,79);
+  background: linear-gradient(270deg, rgba(0, 0, 0, 0.1) 0%, rgba(0,0,0,1) 74%);
+  cursor: pointer;
+  font-size: 2rem;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.prev:hover,
+.next:hover{
+  opacity: 0.8;
+}
+
+.next {
+  display: inline-flex;  
+  position: absolute;
+  right: 90px;
+  top: -75px;
+  color: rgb(255, 255, 255);
+  font-size: xx-large;
+  justify-content: center;
+  height: 20vh;
+  width: 50px;
+  padding-left: 5px;
+  padding-right: 5px;
+  align-items: center;
+  /* background-color: chartreuse; */
+  background: rgb(79,79,79);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0%, rgba(0,0,0,1) 74%);
+  cursor: pointer;
+  font-size: 2rem;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.fa-angle-left, .fa-angle-right{
+  color: rgba(255,255,255,0.5);
 }

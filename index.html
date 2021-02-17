@@ -2,19 +2,28 @@
 <html lang="en">
 
 <head>
+  <!-- META -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Salvatore Viscuso">
   <meta name="description" content="Code-week-Edgemonix">
+
+  <!-- STYLESHEETS -->
   <link rel="stylesheet" href="Styles/normalize.css">
   <link rel="stylesheet" href="Styles/style.css">
+  <link rel="stylesheet" href="Styles/font-awesome-4.7.0/css/font-awesome.min.css">
+
+  <!-- FAVICON -->
   <link rel="shortcut icon"
     href="https://static.tumblr.com/fc37836cbdcc0b6226aa282ddd880e90/yfashpy/ZePopa5hb/tumblr_static_4umo0gqzk6qsw4wgogswgcc8k.png"
     type="image/x-icon">
+
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
   <title>Edgemonix</title>
 </head>
 
@@ -41,6 +50,7 @@
             <h4>EDGEMONIX</h4>
           </a></li>
         <li><a href="#tvPopular">Categorie</a></li>
+
       </ul>
       <span class="profile"></span>
     </section>
@@ -54,21 +64,43 @@
         <div class="singleCarousel">
           <h2>Popolari</h2>
           <div class="carousel-inwrap">
-            <div class="carousel" id="tvPopular"></div>
+            <div class="carousel" id="tvPopular">
+              <div class="nav">
+                <div id="prevFirst" class="prev">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </div>
+                <div id="nextFirst" class="next"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
+
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="singleCarousel">
-          <h2>Più Votate</h2>
-          <div class="carousel-inwrap">
-            <div class="carousel" id="tvTopRated"></div>
-          </div>
-        </div>
-        <div class="singleCarousel">
-          <h2>Di tendenza</h2>
-          <div class="carousel-inwrap">
-            <div class="carousel" id="tvOnAir"></div>
-          </div>
-        </div>
+          <div class="singleCarousel">
+            <h2>Più Votate</h2>
+            <div class="carousel-inwrap">
+              <div class="carousel" id="tvTopRated">
+                <div class="nav">
+                  <div id="prevSecond" class="prev">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                  </div>
+                  <div id="nextSecond" class="next"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="singleCarousel">
+              <h2>Di tendenza</h2>
+              <div class="carousel-inwrap">
+                <div class="carousel" id="tvOnAir">
+                  <div class="nav">
+                    <div id="prevThird" class="prev">
+                      <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </div>
+                    <div id="nextThird" class="next"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
       </section>
     </div>
   </main>
