@@ -9,6 +9,7 @@ const OverlayLogin = document.querySelector('.overlay-for-login')
 
 const ProfileSpan = document.querySelector('.profile')
 
+const slideSec = document.querySelector(".slideshow")
 
 const state = {
   config: {
@@ -80,7 +81,7 @@ async function getUserInputApi(e) {
     if (!response.ok) {
       state.config.request_token = response.request_token
       // console.log(response)
-      window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}`) /* Apertura finestra di autenticazione */
+      window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}/allow`) /* Apertura finestra di autenticazione */
       // console.log(state.config)
       ConfirmBtn.style.display = "block"
       // console.log(state.config)
@@ -170,10 +171,58 @@ function createAvatar(name, username) {
   console.log('messaggio')
 }
 
+
+
+function createMainSlideshow(imgUrl, maintitle, description) {
+  let imgcompleteUrl = `https://image.tmdb.org/t/p/original/${imgUrl}`
+  console.log(state.on_air)
+ 
+
+
+  // Creo gli elementi per lo slideshow
+  const divSlides = document.createElement('div')
+  const img = document.createElement('img');
+  const container = document.createElement('div');
+  const title = document.createElement('h3');
+  const content = document.createElement('p');
+
+  // Assegno le classi
+  divSlides.classList.add('contentSlides');
+  img.classList.add('mySlidesBackdrop');
+  container.classList.add('contentText');
+  title.classList.add('headerSlides');
+  content.classList.add('descriptionSlides');
+
+  // Assegno il contenuto
+  img.src = imgcompleteUrl
+  title.textContent = maintitle
+  content.textContent = description
+
+  // Appendo gli elementi
+  title.appendChild(content)
+  container.appendChild(title)
+  divSlides.append(img, container)
+
+  return divSlides
+}
+
+function renderMainSlideshow() {
+  const filteredSeries = state.on_air.filter((item) => item.popularity > 350);
+
+  filteredSeries.forEach((item) => {
+    const slide = createMainSlideshow(
+      item.backdrop_path,
+      item.name,
+      item.overview
+    );
+    slideSec.appendChild(slide);
+  });
+}
+
 /* Carosello */
 let slideIndex = 0;
 
-function carousel() {
+function slideshow() {
   let i;
   let x = document.getElementsByClassName("contentSlides");
   for (i = 0; i < x.length; i++) {
@@ -182,7 +231,7 @@ function carousel() {
   slideIndex++;
   if (slideIndex > x.length) { slideIndex = 1 }
   x[slideIndex - 1].style.opacity = 1;
-  setTimeout(carousel, 10000);
+  setTimeout(slideshow, 5000);
 }
 
 
@@ -207,19 +256,19 @@ async function handleHTMLMounted() {
       createAvatar(state.user.name, state.user.username)
     })
     .then(() => {
-      carousel()
-    })
-    .then(()=>{
       handlingDatas()
     })
 }
 
-async function handlingDatas(){
+async function handlingDatas() {
   Promise.all([getPopular(), getTopRated(), getOnAir()]).then(
-    ()=>{
+    () => {
       console.log(state)
+      renderMainSlideshow()
     }
-  )
+  ).then(()=>{
+    slideshow()
+  })
 }
 
 LoginForm.addEventListener('submit', getUserInputApi)
