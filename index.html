@@ -34,21 +34,43 @@
     </div>
   </div>
   <header>
+    <!-- Fixed Navbar -->
     <section class="navbar">
-      <h4>EDGEMONIX</h4>
       <ul>
-        <li><a href="">Popolari</a></li>
-        <li><a href="">Più votate</a></li>
-        <li><a href="">Novità</a></li>
+        <li><a href="#slideShow">
+            <h4>EDGEMONIX</h4>
+          </a></li>
+        <li><a href="#tvPopular">Categorie</a></li>
       </ul>
       <span class="profile"></span>
     </section>
   </header>
 
   <main>
-    <section class="slideshow">
-    </section>
-    <section class="carousel" id="tvPopular"></section>
+    <!-- wrapper that contains the slideshow section and carousels -->
+    <div class="wrapper">
+      <section class="slideshow" id="slideShow"></section>
+      <section class="sectCarousel sectCarousel-is-hidden">
+        <div class="singleCarousel">
+          <h2>Popolari</h2>
+          <div class="carousel-inwrap">
+            <div class="carousel" id="tvPopular"></div>
+          </div>
+        </div>
+        <div class="singleCarousel">
+          <h2>Più Votate</h2>
+          <div class="carousel-inwrap">
+            <div class="carousel" id="tvTopRated"></div>
+          </div>
+        </div>
+        <div class="singleCarousel">
+          <h2>Di tendenza</h2>
+          <div class="carousel-inwrap">
+            <div class="carousel" id="tvOnAir"></div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <script src="Assets/index.js"></script>

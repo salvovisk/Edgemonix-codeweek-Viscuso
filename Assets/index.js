@@ -1,7 +1,19 @@
 // f77033c1d0b6830581c0191d91ecddb7
 
 
+/* TO DO
 
+- new functionalities on slideshow, like ratings or more details buttons
+- refine the layout of the text cause it's a shit
+
+- buttons on carousels
+
+- traslation on login overlay (?)
+- modal for info on the selected item (?)
+
+- extra functionalities !!
+
+*/
 
 const LoginForm = document.querySelector('.overlay-form')
 const ConfirmBtn = document.querySelector('.confirmBtn')
@@ -10,6 +22,10 @@ const OverlayLogin = document.querySelector('.overlay-for-login')
 const ProfileSpan = document.querySelector('.profile')
 
 const slideSec = document.querySelector(".slideshow")
+
+const TV_POPULAR = document.querySelector('#tvPopular')
+const TV_TOP_RATED = document.querySelector('#tvTopRated')
+const TV_ON_AIR = document.querySelector('#tvOnAir')
 
 const state = {
   config: {
@@ -67,13 +83,13 @@ async function getData(url) {
   }
 }
 
-
 /* ----------------------------END OF UTILITIES---------------------------------- */
 
 
 async function getUserInputApi(e) {
   e.preventDefault();
   const UserInput = document.querySelector('input')
+
   state.config.api_key = UserInput.value
   try {
     const requestTokenUrl = getUrl("/authentication/token/new")
@@ -83,6 +99,7 @@ async function getUserInputApi(e) {
       // console.log(response)
       window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}/allow`) /* Apertura finestra di autenticazione */
       // console.log(state.config)
+      
       ConfirmBtn.style.display = "block"
       // console.log(state.config)
     }
@@ -93,6 +110,7 @@ async function getUserInputApi(e) {
 }
 
 async function confirmLogin() {
+  const body = document.querySelector('body')
   const { base_url, api_key, request_token } = state.config
 
   const result = await fetch(`${base_url}/authentication/session/new?api_key=${api_key}`, {
@@ -108,6 +126,7 @@ async function confirmLogin() {
   state.config.sessionId = response.session_id
   // console.log(result)
   if (state.config.sessionId === response.session_id) {
+    
     OverlayLogin.classList.add('overlay-is-hidden')
     handleHTMLMounted()
   }
@@ -172,12 +191,11 @@ function createAvatar(name, username) {
 }
 
 
-
+// function to create elements of the main slideshow
 function createMainSlideshow(imgUrl, maintitle, description) {
   let imgcompleteUrl = `https://image.tmdb.org/t/p/original/${imgUrl}`
-  console.log(state.on_air)
- 
 
+  // console.log(state.on_air)
 
   // Creo gli elementi per lo slideshow
   const divSlides = document.createElement('div')
@@ -206,6 +224,7 @@ function createMainSlideshow(imgUrl, maintitle, description) {
   return divSlides
 }
 
+// function to render the elements of the main slideshow
 function renderMainSlideshow() {
   const filteredSeries = state.on_air.filter((item) => item.popularity > 350);
 
@@ -219,7 +238,7 @@ function renderMainSlideshow() {
   });
 }
 
-/* Carosello */
+/* Automatic main slideshow */
 let slideIndex = 0;
 
 function slideshow() {
@@ -234,6 +253,33 @@ function slideshow() {
   setTimeout(slideshow, 5000);
 }
 
+// function to create cards of the carousel
+function getTvCard(imgURL, title) {
+  let imgcompleteUrl = `https://image.tmdb.org/t/p/w342/${imgURL}`
+  const cardWrap = document.createElement("div");
+  const coverImg = document.createElement("img");
+  const textWrap = document.createElement("div");
+  const text = document.createElement("h3");
+
+  cardWrap.classList.add("card");
+  textWrap.classList.add("card__title_wrap");
+  text.textContent = title;
+  coverImg.src = imgcompleteUrl;
+
+  textWrap.appendChild(text);
+  cardWrap.append(coverImg, textWrap);
+
+  return cardWrap;
+}
+
+function renderCarousel(list, sectionNode) {
+  const altImgUrl = ("https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg")
+
+  list.forEach((item) => {
+    const seriesCard = getTvCard(item.backdrop_path || item.poster_path, item.name);
+    sectionNode.append(seriesCard);
+  });
+}
 
 // // Call to receive user datas such as avatar and username and renders the profile span
 
@@ -266,9 +312,17 @@ async function handlingDatas() {
       console.log(state)
       renderMainSlideshow()
     }
-  ).then(()=>{
+  ).then(() => {
     slideshow()
+  }
+  ).then(()=>{
+    renderCarousel(state.popular, TV_POPULAR);
+    renderCarousel(state.top_rated, TV_TOP_RATED);
+    renderCarousel(state.on_air, TV_ON_AIR)
+    const carousel = document.querySelector('.sectCarousel')
+    carousel.classList.remove('sectCarousel-is-hidden')
   })
+
 }
 
 LoginForm.addEventListener('submit', getUserInputApi)
