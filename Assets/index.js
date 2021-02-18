@@ -8,10 +8,10 @@
 
 - buttons on carousels Done but to debug
 
-- traslation on login overlay (?)
-- modal for info on the selected item (?)
+-trailer functionality
 
-- extra functionalities !!
+- refine the redirect
+- fix the login session
 
 */
 
@@ -47,6 +47,9 @@ const state = {
 
 
 /* ----------------------------START OF UTILITIES---------------------------------- */
+
+// function to generate a random color.
+// special thanks to Lorenzo
 const getRandomColor = () => {
   const letters = "0123456789ABCDEF";
   let color = "#";
@@ -154,6 +157,8 @@ async function getOnAir() {
   return rawResponse
 }
 
+
+
 // Function to create a personalized message in the navbar according to the time
 let greeting = null
 
@@ -176,26 +181,28 @@ function greetingUser() {
 
 function createAvatar(name, username) {
   const nameAndSurname = name.split(" ")
-  console.log(nameAndSurname)
+  // console.log(nameAndSurname)
   const avatarImg = document.createElement('div')
   avatarImg.classList.add('avatar')
   avatarImg.style.backgroundColor = getRandomColor()
   const newThumbnail = document.createTextNode(((nameAndSurname[0])[0]) + ((nameAndSurname[1])[0]));
   avatarImg.appendChild(newThumbnail)
   ProfileSpan.appendChild(avatarImg)
-  console.log('avatar')
+  // console.log('avatar')
   const message = document.createElement('h3')
   message.textContent = `${greeting}, ${username}`
   ProfileSpan.append(message, avatarImg)
-  console.log('messaggio')
+  // console.log('messaggio')
 }
 
 
 // function to create elements of the main slideshow
+
 function createMainSlideshow(imgUrl, maintitle, description) {
   let imgcompleteUrl = `https://image.tmdb.org/t/p/original/${imgUrl}`
 
   // console.log(state.on_air)
+
 
   // Creo gli elementi per lo slideshow
   const divSlides = document.createElement('div')
@@ -217,6 +224,7 @@ function createMainSlideshow(imgUrl, maintitle, description) {
   content.textContent = description
 
   // Appendo gli elementi
+
   title.appendChild(content)
   container.appendChild(title)
   divSlides.append(img, container)
@@ -225,6 +233,9 @@ function createMainSlideshow(imgUrl, maintitle, description) {
 }
 
 // function to render the elements of the main slideshow
+
+
+
 function renderMainSlideshow() {
   const filteredSeries = state.on_air.filter((item) => item.popularity > 350);
 
@@ -253,30 +264,35 @@ function slideshow() {
   setTimeout(slideshow, 5000);
 }
 
+
+
 // function to create cards of the carousel
-function getTvCard(imgURL, title) {
+function getTvCard(imgURL, title, id) {
   let imgcompleteUrl = `https://image.tmdb.org/t/p/w342/${imgURL}`
   const cardWrap = document.createElement("div");
   const coverImg = document.createElement("img");
   const textWrap = document.createElement("div");
   const text = document.createElement("h3");
+  const link = document.createElement("a");
 
+  link.classList.add('cardLink')
   cardWrap.classList.add("card");
   textWrap.classList.add("card__title_wrap");
   text.textContent = title;
   coverImg.src = imgcompleteUrl;
+  link.id = id
+  link.href = `./tv-series.html?id=${id}`
 
   textWrap.appendChild(text);
-  cardWrap.append(coverImg, textWrap);
+  cardWrap.append(coverImg, textWrap, link);
 
   return cardWrap;
 }
 
 function renderCarousel(list, sectionNode) {
-  const altImgUrl = ("https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg")
 
   list.forEach((item) => {
-    const seriesCard = getTvCard(item.backdrop_path || item.poster_path, item.name);
+    const seriesCard = getTvCard(item.backdrop_path || item.poster_path, item.name, item.id);
     sectionNode.append(seriesCard);
   });
 }
@@ -326,17 +342,17 @@ function handleScrollLeft() {
   }
 }
 
-  document.querySelectorAll('.prev').forEach(item => {
-    item.addEventListener('click', event => {
-      handleScrollLeft()
-    })
+document.querySelectorAll('.prev').forEach(item => {
+  item.addEventListener('click', event => {
+    handleScrollLeft()
   })
+})
 
-  document.querySelectorAll('.next').forEach(item => {
-    item.addEventListener('click', event => {
-      handleScrollRight()
-    })
+document.querySelectorAll('.next').forEach(item => {
+  item.addEventListener('click', event => {
+    handleScrollRight()
   })
+})
 
 // // Call to receive user datas such as avatar and username and renders the profile span
 
@@ -378,7 +394,6 @@ async function handlingDatas() {
     renderCarousel(state.on_air, TV_ON_AIR)
     const carousel = document.querySelector('.sectCarousel')
     carousel.classList.remove('sectCarousel-is-hidden')
-
   })
 
 }

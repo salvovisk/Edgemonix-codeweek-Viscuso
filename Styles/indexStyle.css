@@ -51,6 +51,7 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 1;
 }
 
 .overlay-body {
@@ -134,8 +135,8 @@ input:-webkit-autofill:first-line {
 }
 
 .overlay-is-hidden {
-  display: none;
-
+  transform:translatey(-100vh);
+  transition: all 0.9s ease-in-out;
 }
 
 .navbar {
@@ -364,8 +365,19 @@ h2 {
   color: white;
 }
 
+.cardLink {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
 .card img {
   object-fit: cover;
+  height: 20vh;
+  width: 250px;
 }
 
 .nav {
@@ -398,7 +410,7 @@ h2 {
 
 .prev:hover,
 .next:hover{
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .next {
