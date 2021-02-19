@@ -133,8 +133,7 @@ input:-webkit-autofill:first-line {
 }
 
 .overlay-is-hidden {
-  transform:translatey(-100vh);
-  transition: all 0.9s ease-in-out;
+  display: none;
 }
 
 .navbar {

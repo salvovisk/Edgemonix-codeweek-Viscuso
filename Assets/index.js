@@ -15,24 +15,24 @@
 
 */
 
+
+
+
 const LoginForm = document.querySelector('.overlay-form')
 const ConfirmBtn = document.querySelector('.confirmBtn')
 const OverlayLogin = document.querySelector('.overlay-for-login')
-
 const ProfileSpan = document.querySelector('.profile')
-
 const slideSec = document.querySelector(".slideshow")
-
 const TV_POPULAR = document.querySelector('#tvPopular')
 const TV_TOP_RATED = document.querySelector('#tvTopRated')
 const TV_ON_AIR = document.querySelector('#tvOnAir')
 
 const state = {
   config: {
-    api_key: null,
+    api_key: sessionStorage.getItem("user-api"),
     base_url: "https://api.themoviedb.org/3",
     request_token: null,
-    sessionId: null,
+    sessionId: sessionStorage.getItem("edgemonix_session"),
     images: null
   },
   user: {
@@ -44,6 +44,7 @@ const state = {
   top_rated: null,
   on_air: null,
 }
+
 
 
 /* ----------------------------START OF UTILITIES---------------------------------- */
@@ -88,34 +89,25 @@ async function getData(url) {
 
 /* ----------------------------END OF UTILITIES---------------------------------- */
 
-
-async function getUserInputApi(e) {
-  e.preventDefault();
+async function getRequestToken() {
   const UserInput = document.querySelector('input')
-
   state.config.api_key = UserInput.value
+  const sessionApi = sessionStorage.setItem('user-api', UserInput.value)
   try {
     const requestTokenUrl = getUrl("/authentication/token/new")
     const response = await getData(requestTokenUrl);
     if (!response.ok) {
       state.config.request_token = response.request_token
-      // console.log(response)
       window.open(`https://www.themoviedb.org/authenticate/${state.config.request_token}/allow`) /* Apertura finestra di autenticazione */
-      // console.log(state.config)
-
-      ConfirmBtn.style.display = "block"
-      // console.log(state.config)
     }
   } catch (error) {
     console.log(error)
   }
-  ConfirmBtn.addEventListener('click', confirmLogin)
+  return true
 }
 
-async function confirmLogin() {
-  const body = document.querySelector('body')
+async function getSession() {
   const { base_url, api_key, request_token } = state.config
-
   const result = await fetch(`${base_url}/authentication/session/new?api_key=${api_key}`, {
     method: "POST",
     headers: {
@@ -126,14 +118,12 @@ async function confirmLogin() {
     })
   })
   const response = await result.json()
+  // receive the session id
   state.config.sessionId = response.session_id
-  // console.log(result)
-  if (state.config.sessionId === response.session_id) {
-
-    OverlayLogin.classList.add('overlay-is-hidden')
-    handleHTMLMounted()
-  }
-
+  // store the session id in storage
+  const sessionDataString = response.session_id;
+  sessionStorage.setItem("edgemonix_session", sessionDataString);
+  return true
 }
 
 async function getPopular() {
@@ -157,6 +147,16 @@ async function getOnAir() {
   return rawResponse
 }
 
+// Call to receive user datas such as avatar and username and renders the profile span
+async function getUserData() {
+  const requestProfileUrl = `${state.config.base_url}/account?api_key=${state.config.api_key}&session_id=${state.config.sessionId}`
+  const response = await getData(requestProfileUrl)
+  /*   console.log('test')
+    console.log(response) */
+  state.user.username = response.username;
+  state.user.name = response.name
+  return response
+}
 
 
 // Function to create a personalized message in the navbar according to the time
@@ -359,48 +359,86 @@ document.querySelectorAll('.next').forEach(item => {
   })
 })
 
-// // Call to receive user datas such as avatar and username and renders the profile span
+// async function handleHTMLMounted() {
+//   await getUserData()
+//     .then(() => {
+//       greetingUser()
+//     })
+//     .then(() => {
+//       createAvatar(state.user.name, state.user.username)
+//     })
+//     .then(() => {
+//       handlingDatas()
+//     })
+// }
+// 
+// async function handlingDatas() {
+//   Promise.all([getPopular(), getTopRated(), getOnAir()]).then(
+//     () => {
+//       console.log(state)
+//       renderMainSlideshow()
+//     }
+//   ).then(() => {
+//     slideshow()
+//   }
+//   ).then(() => {
+//     renderCarousel(state.popular, TV_POPULAR);
+//     renderCarousel(state.top_rated, TV_TOP_RATED);
+//     renderCarousel(state.on_air, TV_ON_AIR)
+//     const carousel = document.querySelector('.sectCarousel')
+//     carousel.classList.remove('sectCarousel-is-hidden')
+//   })
+// }
 
-async function getUserData() {
-  const requestProfileUrl = `${state.config.base_url}/account?api_key=${state.config.api_key}&session_id=${state.config.sessionId}`
-  const response = await getData(requestProfileUrl)
-  /*   console.log('test')
-    console.log(response) */
-  state.user.username = response.username;
-  state.user.name = response.name
-  return response
-}
-
-async function handleHTMLMounted() {
-  await getUserData()
-    .then(() => {
-      greetingUser()
-    })
-    .then(() => {
-      createAvatar(state.user.name, state.user.username)
-    })
-    .then(() => {
-      handlingDatas()
-    })
-}
-
-async function handlingDatas() {
-  Promise.all([getPopular(), getTopRated(), getOnAir()]).then(
+async function mountHtlm() {
+  await Promise.all([verifySession()]).then(
     () => {
-      console.log(state)
-      renderMainSlideshow()
+      handleDatas()
     }
-  ).then(() => {
-    slideshow()
-  }
-  ).then(() => {
-    renderCarousel(state.popular, TV_POPULAR);
-    renderCarousel(state.top_rated, TV_TOP_RATED);
-    renderCarousel(state.on_air, TV_ON_AIR)
-    const carousel = document.querySelector('.sectCarousel')
-    carousel.classList.remove('sectCarousel-is-hidden')
-  })
+  )
+}
+
+async function handleDatas() {
+  await Promise.all([
+    getUserData(),
+    getPopular(),
+    getTopRated(),
+    getOnAir()
+  ])
+  hideOverlayLogin(),
+  greetingUser(),
+  createAvatar(state.user.name, state.user.username),
+  renderMainSlideshow(),
+  slideshow(),
+  renderCarousel(state.popular, TV_POPULAR);
+  renderCarousel(state.top_rated, TV_TOP_RATED);
+  renderCarousel(state.on_air, TV_ON_AIR)
+  const carousel = document.querySelector('.sectCarousel')
+  carousel.classList.remove('sectCarousel-is-hidden')
 
 }
 
-LoginForm.addEventListener('submit', getUserInputApi, { once: true })
+function hideOverlayLogin() {
+  OverlayLogin.classList.add('overlay-is-hidden')
+}
+
+async function handleSession(e) {
+  e.preventDefault()
+  await Promise.all([getRequestToken()]).then(() => {
+    getSession()
+  })
+}
+
+async function verifySession() {
+  const sessionData = sessionStorage.getItem('edgemonix_session')
+  if (!sessionData) {
+    handleSession();
+  } else {
+    console.log(state)
+    handleDatas()
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', verifySession, { once: true })
+LoginForm.addEventListener('submit', handleSession, { once: true })
