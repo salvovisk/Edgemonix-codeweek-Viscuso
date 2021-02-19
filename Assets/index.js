@@ -405,12 +405,11 @@ async function handleDatas() {
     getTopRated(),
     getOnAir()
   ])
-  hideOverlayLogin(),
   greetingUser(),
-  createAvatar(state.user.name, state.user.username),
-  renderMainSlideshow(),
-  slideshow(),
-  renderCarousel(state.popular, TV_POPULAR);
+    createAvatar(state.user.name, state.user.username),
+    renderMainSlideshow(),
+    slideshow(),
+    renderCarousel(state.popular, TV_POPULAR);
   renderCarousel(state.top_rated, TV_TOP_RATED);
   renderCarousel(state.on_air, TV_ON_AIR)
   const carousel = document.querySelector('.sectCarousel')
@@ -418,12 +417,13 @@ async function handleDatas() {
 
 }
 
-function hideOverlayLogin() {
-  OverlayLogin.classList.add('overlay-is-hidden')
+function showOverlayLogin() {
+  OverlayLogin.classList.add('overlay-is-visible')
 }
 
 async function handleSession(e) {
   e.preventDefault()
+
   await Promise.all([getRequestToken()]).then(() => {
     getSession()
   })
@@ -431,7 +431,9 @@ async function handleSession(e) {
 
 async function verifySession() {
   const sessionData = sessionStorage.getItem('edgemonix_session')
-  if (!sessionData) {
+  if (sessionData === undefined || !sessionData) {
+    showOverlayLogin();
+    
     handleSession();
   } else {
     console.log(state)

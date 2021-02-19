@@ -134,7 +134,7 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage, genresLi
 function renderTrailer() {
   if (state.videos) {
     trailerFrame.classList.remove('player-is-hidden')
-    trailerFrame.src = `https://www.youtube.com/embed/${state.videos.key}?autoplay=1`
+    trailerFrame.src = `https://www.youtube.com/embed/${state.videos.key}?autoplay=1&mute=1`
   } else {
     trailerFrame.classList.remove('player-is-hidden')
     trailerFrame.src = `https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1`
