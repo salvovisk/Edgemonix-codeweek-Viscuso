@@ -138,6 +138,29 @@ body::-webkit-scrollbar-thumb {
   height: 100vh;
 }
 
+
+.player{
+  position: absolute;
+  top: 25vh;
+  left: 10vw;
+  width: 640px;
+  height: 360px;
+  border: none;
+  border-radius: 15px;  
+  transition: all 0.5s ease-in-out;
+}
+
+.player-is-hidden{
+  display: none;
+}
+
+
+.player-is-centered {
+  transform: translate(12vw,-10vh);
+  width: 800px;
+  height: 540px;
+}
+
 .sideContent {
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
@@ -151,7 +174,6 @@ body::-webkit-scrollbar-thumb {
   opacity: 1;
   padding: 25px 25px 20px 25px;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.5);
-  /* transform: translateX(340px); */
   transition: transform 0.4s ease-in-out;
 }
 
@@ -181,8 +203,6 @@ body::-webkit-scrollbar-thumb {
   transition: all 0.4s ease-in-out;
 }
 
-
-
 .textContent {
   color: black;
   display: flex;
@@ -197,7 +217,7 @@ body::-webkit-scrollbar-thumb {
 .ratings {
   display: inline-flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-bottom: 5px;
   list-style: none;
 }
@@ -208,7 +228,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .genres li {
-  margin: 20px 15px 5px 0;
+  margin: 5px 15px 5px 0;
   padding: 2px 5px;
   font-weight: bold;
   font-style: italic;

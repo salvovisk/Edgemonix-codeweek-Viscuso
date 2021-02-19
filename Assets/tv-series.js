@@ -7,6 +7,7 @@ const CONTENT_SECTION = document.querySelector('.wrapper')
 const sideContent = document.querySelector('.sideContent')
 const closeArrow = document.querySelector('.fa-angle-right')
 const openArrow = document.querySelector('.openArrow')
+const trailerFrame = document.querySelector('.player')
 
 const state = {
   config: {
@@ -15,6 +16,7 @@ const state = {
   },
   query_id: null,
   details: null,
+  videos: null,
   id: null
 }
 
@@ -41,7 +43,7 @@ async function verifyIdFromUrl() {
 
 function getUrl(pathname) {
   const { api_key, base_url } = state.config;
-  return `${base_url}${pathname}?api_key=${api_key}&language=it-IT`;
+  return `${base_url}${pathname}?api_key=${api_key}`;
 }
 
 async function getData(url) {
@@ -61,9 +63,17 @@ async function getData(url) {
 
 
 async function getTvDetails(id) {
-  const tvDetailsUrl = getUrl(`/tv/${id}`);
+  const tvDetailsUrl = getUrl(`/tv/${id}`) + '&language=it-IT';
   const rawResponse = await getData(tvDetailsUrl);
   state.details = rawResponse
+  console.log(rawResponse)
+  return rawResponse
+}
+
+async function getTvVideos(id) {
+  const tvVideosUrl = getUrl(`/tv/${id}/videos`);
+  const rawResponse = await getData(tvVideosUrl);
+  state.videos = rawResponse.results[0]
   console.log(rawResponse)
   return rawResponse
 }
@@ -74,7 +84,7 @@ function handleReject() {
 
 
 
-function renderSideContent(imgUrl, maintitle, description, voteAverage) {
+function renderSideContent(imgUrl, maintitle, description, voteAverage, genresList) {
   const vote = voteAverage / 2
   console.log(vote)
   const ratings = {
@@ -84,7 +94,7 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage) {
   const img = document.querySelector('.backdrop');
   const textContainer = document.querySelector('.textContent');
   const title = document.querySelector('.title')
-  const genresList = document.querySelector('.genres')
+  const genresLista = document.querySelector('.genres')
   const ratingsList = document.querySelector('.ratings')
   const paragraph = document.querySelector('.description')
   const starsInner = document.querySelector('.stars-inner')
@@ -96,7 +106,7 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage) {
   sideContainer.classList.add('sideContent')
   textContainer.classList.add('textContent')
   title.classList.add('title')
-  genresList.classList.add('genres')
+  genresLista.classList.add('genres')
   ratingsList.classList.add('ratings')
   paragraph.classList.add('description')
 
@@ -104,6 +114,14 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage) {
   img.src = imgcompleteUrl
   title.textContent = maintitle
   paragraph.textContent = description
+
+  const genres = genresList.map((genre) => genre.name);
+  genres.forEach((text) => {
+    const li = document.createElement('li');
+    li.textContent = text;
+    genresLista.append(li)
+  })
+
 
   const starTotal = 5
   for (const rating in ratings) {
@@ -113,23 +131,40 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage) {
   }
 }
 
+function renderTrailer() {
+  if (state.videos.key) {
+    trailerFrame.classList.remove('player-is-hidden')
+    trailerFrame.src = `https://www.youtube.com/embed/${state.videos.key}?autoplay=1`
+  } else {
+    trailerFrame.classList.remove('player-is-hidden')
+    trailerFrame.src = `https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1`
+  }
+}
+
 function handleSidecontentClose() {
   sideContent.classList.add('sideContent-move-out')
   openArrow.classList.add('openArrow-is-visible')
+  trailerFrame.classList.add('player-is-centered')
 }
 
-function handleSidecontentOpen(){
+function handleSidecontentOpen() {
   sideContent.classList.remove('sideContent-move-out')
   openArrow.classList.remove('openArrow-is-visible')
+  trailerFrame.classList.remove('player-is-centered')
 }
 
 closeArrow.addEventListener('click', handleSidecontentClose)
-openArrow.addEventListener('mouseenter',handleSidecontentOpen)
+openArrow.addEventListener('mouseenter', handleSidecontentOpen)
 
 function handleHTMLMounted() {
   getTvDetails(state.query_id).then(() => {
-    renderSideContent(state.details.backdrop_path, state.details.name, state.details.overview, state.details.vote_average)
+    renderSideContent(state.details.backdrop_path, state.details.name, state.details.overview, state.details.vote_average, state.details.genres)
+  }).then(() => {
+    getTvVideos(state.query_id).then(() => {
+      renderTrailer()
+    })
   })
+
 }
 
 
