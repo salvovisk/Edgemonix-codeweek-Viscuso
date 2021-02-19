@@ -9,8 +9,6 @@
 body {
   font-family: "Roboto", sans-serif;
   position: relative;
-  background: rgb(55, 55, 55);
-  background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,1) 42%);
   overflow-x: hidden;
 }
 :root a:hover, a:active, a:visited, a:link {
@@ -42,16 +40,20 @@ body::-webkit-scrollbar-thumb {
 
 
 .overlay-for-login {
+  display: none;
   position: absolute;
   background-color: rgba(0, 0, 0, 96%);
   height: 100vh;
   width: 100vw;
-  z-index: 3;
+  z-index: -1;
   overflow-y: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 1;
+}
+
+.overlay-is-visible {
+  z-index: 3;
 }
 
 .overlay-body {
@@ -64,7 +66,6 @@ body::-webkit-scrollbar-thumb {
   color: rgba(255,255,255,0.7);
   letter-spacing: 1px;
   box-shadow: 0 0 25px 10px rgba(31, 184, 214, 8%);
-
 }
 
 .overlay-form {
@@ -134,10 +135,7 @@ input:-webkit-autofill:first-line {
   outline: none;
 }
 
-.overlay-is-hidden {
-  transform:translatey(-100vh);
-  transition: all 0.9s ease-in-out;
-}
+
 
 .navbar {
   position: fixed;
@@ -219,21 +217,30 @@ align-items: center;
   justify-content: center;
   overflow-x: hidden;
   overflow-y: hidden;
+  align-items: center;
+  /* background: rgb(55, 55, 55);
+  background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,0.92) 50%); */
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(32,32,32,1) 100%);
 }
 
 .slideshow {
+  justify-content: center;
   height: 100vh;
+  width: 1100px;
   overflow-x: none;
 }
 
+
 .contentSlides {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 1100px;
+  height: 580px;
   z-index: 1;
+  top: 100px;
   transition: opacity 1.5s ease-in-out;
-  top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0;  
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 70%);
 }
 
 .contentSlides + .contentSlides {opacity: 1;}
@@ -241,8 +248,9 @@ align-items: center;
 .mySlidesBackdrop {
   position: absolute;
   object-fit: cover;
-  width: 100vw;
+  width: 100%;
   height: 100%;
+  border-radius: 10px;
 }
 
 .contentText {
@@ -255,7 +263,7 @@ align-items: center;
   background-color: rgba(0, 0, 0, 70%);
   height: fit-content;
   padding: 25px;
-  box-shadow: 0 -10px 25px 25px rgba(0, 0, 0, 70%);
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 70%);
 }
 
 
@@ -286,8 +294,8 @@ align-items: center;
   height: 100%;
   width: 100%;
   scroll-snap-type: center;
-  background: rgb(25,25,25);
-  background: linear-gradient(180deg, rgba(25,25,25,1) 10%, rgba(0,0,0,1) 100%);
+  /* background: rgb(25,25,25);
+  background: linear-gradient(180deg, rgba(25,25,25,1) 10%, rgba(0,0,0,1) 100%); */
   padding-left: 45px;
   padding-right: 45px;
   padding-top: 10px;
