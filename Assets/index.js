@@ -1,19 +1,24 @@
-// f77033c1d0b6830581c0191d91ecddb7
+/* NOTE 
+  Allora, è stata una bella sfida, ma sono davvero contento del risultato ottenuto.
 
+  Il main slideshow è settato a 5 secondo a scopo dimostrativo
+  Le posizioni non sono perfette, probabilmente avrei dovuto utilizzare un approccio diverso 
+  e spero di poterne parlare meglio con te.
 
-/* TO DO
+  La parte che mi ha dato più problemi è quella dell'autenticazione, perciò potresti incontrare qualche bug
+  e refreshare la pagina dopo l'autenticazione di the movieDB, anche qui spero di poterne discutere meglio con te.
 
-- new functionalities on slideshow, genres and ratings or more details buttons
-- refine the layout of the text cause it's a shit
+  So che magari sono andato oltre consegna su alcuni punti, ma ho utilizzato il tempo a disposizione
+  per sperimentare nuove funzionalità e rafforzare, mettendoli in pratica, alcuni concetti.
 
-- buttons on carousels Done but to debug
-
--trailer functionality
-
-- refine the redirect
-- fix the login session
-
+  Manca solo una cosa in questo progetto, LA GESTIONE DEGLI ERRORI, sono riuscito a fare solo il 404 di cui mi avevi 
+  chiesto in caso di id non numerico in query string.
 */
+// Di seguito la mia API Key, però c'è il processo di autenticazione per ricevere avatar e username,
+// quindi mi sa che ti tocca fare l'accesso con la tua
+
+
+// f77033c1d0b6830581c0191d91ecddb7
 
 
 
@@ -359,44 +364,7 @@ document.querySelectorAll('.next').forEach(item => {
   })
 })
 
-// async function handleHTMLMounted() {
-//   await getUserData()
-//     .then(() => {
-//       greetingUser()
-//     })
-//     .then(() => {
-//       createAvatar(state.user.name, state.user.username)
-//     })
-//     .then(() => {
-//       handlingDatas()
-//     })
-// }
-// 
-// async function handlingDatas() {
-//   Promise.all([getPopular(), getTopRated(), getOnAir()]).then(
-//     () => {
-//       console.log(state)
-//       renderMainSlideshow()
-//     }
-//   ).then(() => {
-//     slideshow()
-//   }
-//   ).then(() => {
-//     renderCarousel(state.popular, TV_POPULAR);
-//     renderCarousel(state.top_rated, TV_TOP_RATED);
-//     renderCarousel(state.on_air, TV_ON_AIR)
-//     const carousel = document.querySelector('.sectCarousel')
-//     carousel.classList.remove('sectCarousel-is-hidden')
-//   })
-// }
 
-async function mountHtlm() {
-  await Promise.all([verifySession()]).then(
-    () => {
-      handleDatas()
-    }
-  )
-}
 
 async function handleDatas() {
   await Promise.all([

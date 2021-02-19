@@ -225,7 +225,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .genres {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   list-style: none;
 }
 
