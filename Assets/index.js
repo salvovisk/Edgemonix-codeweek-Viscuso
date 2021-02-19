@@ -198,7 +198,7 @@ function createAvatar(name, username) {
 
 // function to create elements of the main slideshow
 
-function createMainSlideshow(imgUrl, maintitle, description) {
+function createMainSlideshow(imgUrl, maintitle, description, id) {
   let imgcompleteUrl = `https://image.tmdb.org/t/p/original/${imgUrl}`
 
   // console.log(state.on_air)
@@ -211,6 +211,7 @@ function createMainSlideshow(imgUrl, maintitle, description) {
   const title = document.createElement('h3');
   const content = document.createElement('p');
 
+
   // Assegno le classi
   divSlides.classList.add('contentSlides');
   img.classList.add('mySlidesBackdrop');
@@ -218,10 +219,12 @@ function createMainSlideshow(imgUrl, maintitle, description) {
   title.classList.add('headerSlides');
   content.classList.add('descriptionSlides');
 
+
   // Assegno il contenuto
   img.src = imgcompleteUrl
   title.textContent = maintitle
   content.textContent = description
+
 
   // Appendo gli elementi
 
@@ -243,7 +246,8 @@ function renderMainSlideshow() {
     const slide = createMainSlideshow(
       item.backdrop_path,
       item.name,
-      item.overview
+      item.overview,
+      item.id
     );
     slideSec.appendChild(slide);
   });
@@ -309,10 +313,10 @@ function handleScrollRight() {
     })
   } else if (event.target.id === "nextSecond") {
     TV_TOP_RATED.parentNode.scrollTo({
-      left: TV_POPULAR.parentNode.scrollLeft + TV_TOP_RATED.childNodes[1].offsetWidth,
+      left: TV_TOP_RATED.parentNode.scrollLeft + TV_TOP_RATED.childNodes[1].offsetWidth,
       behavior: 'smooth'
     })
-  } else {
+  } else if (event.target.id === "nextThird") {
     TV_ON_AIR.parentNode.scrollTo({
       left: TV_ON_AIR.parentNode.scrollLeft + TV_ON_AIR.childNodes[1].offsetWidth,
       behavior: 'smooth'
@@ -333,8 +337,9 @@ function handleScrollLeft() {
       left: TV_TOP_RATED.parentNode.scrollLeft - TV_TOP_RATED.childNodes[1].offsetWidth,
       behavior: 'smooth'
     })
-  } else {
-    TV_ON_AIR.scrollTo({
+  } else if (event.target.id === "prevThird") {
+    console.log(event.target.id)
+    TV_ON_AIR.parentNode.scrollTo({
       left: TV_ON_AIR.parentNode.scrollLeft - TV_ON_AIR.childNodes[1].offsetWidth,
       behavior: 'smooth'
     })

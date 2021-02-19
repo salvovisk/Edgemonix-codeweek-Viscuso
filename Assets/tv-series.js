@@ -4,6 +4,9 @@
 
 const ERROR_OVERLAY = document.querySelector('.overlay-404')
 const CONTENT_SECTION = document.querySelector('.wrapper')
+const sideContent = document.querySelector('.sideContent')
+const closeArrow = document.querySelector('.fa-angle-right')
+const openArrow = document.querySelector('.openArrow')
 
 const state = {
   config: {
@@ -72,7 +75,7 @@ function handleReject() {
 
 
 function renderSideContent(imgUrl, maintitle, description, voteAverage) {
-  const vote = voteAverage / 2 
+  const vote = voteAverage / 2
   console.log(vote)
   const ratings = {
     series: vote
@@ -108,14 +111,25 @@ function renderSideContent(imgUrl, maintitle, description, voteAverage) {
     const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
     starsInner.style.width = starPercentageRounded;
   }
-
 }
+
+function handleSidecontentClose() {
+  sideContent.classList.add('sideContent-move-out')
+  openArrow.classList.add('openArrow-is-visible')
+}
+
+function handleSidecontentOpen(){
+  sideContent.classList.remove('sideContent-move-out')
+  openArrow.classList.remove('openArrow-is-visible')
+}
+
+closeArrow.addEventListener('click', handleSidecontentClose)
+openArrow.addEventListener('mouseenter',handleSidecontentOpen)
 
 function handleHTMLMounted() {
   getTvDetails(state.query_id).then(() => {
     renderSideContent(state.details.backdrop_path, state.details.name, state.details.overview, state.details.vote_average)
   })
-
 }
 
 
