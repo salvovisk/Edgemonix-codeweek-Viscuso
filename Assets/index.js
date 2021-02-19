@@ -398,4 +398,4 @@ async function handlingDatas() {
 
 }
 
-LoginForm.addEventListener('submit', getUserInputApi)
+LoginForm.addEventListener('submit', getUserInputApi, { once: true })
