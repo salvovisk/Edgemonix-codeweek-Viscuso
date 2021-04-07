@@ -2,8 +2,11 @@
 ![image](https://user-images.githubusercontent.com/76967077/113871591-5a9b4f00-97b3-11eb-9986-d226abc9c268.png)
 ![image](https://user-images.githubusercontent.com/76967077/113871624-61c25d00-97b3-11eb-8de4-ae58cf109b7c.png)
 
-Per poter entrare, bisogna inserire l'Api Key di "The movie Database" 
+Per poter entrare bisogna inserire l'Api Key di "The movie Database" 
 https://developers.themoviedb.org/3/getting-started/introduction
+
+![image](https://user-images.githubusercontent.com/76967077/113872221-fd53cd80-97b3-11eb-860a-1612d26e5c5a.png)
+
 
 Sarà necessario confermare l'autenticazione tramite il login sul portale di TMDB, successivamente potrebbe essere necessario effettuare un refresh della HomePage.
 
